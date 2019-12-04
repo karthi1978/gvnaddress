@@ -1,0 +1,53 @@
+node
+
+{
+       
+env.JAVA_HOME = tool name: 'myjdk', type: 'jdk'
+       
+def mvnhome = tool name: 'mymvn', type: 'maven'
+       
+def mvncmd = "${mvnhome}/bin/mvn"
+       
+def w="${env.WORKSPACE}"+"/addressbook"
+
+      
+stage('checkout')
+     
+ {
+        
+ 	git 'https://github.com/batch2991/gvnaddress.git'
+     
+ }
+      
+stage('compile')
+      
+{
+       
+	 echo "compiling the code"
+        
+	 sh "${mvncmd} -f ${w} compile"
+     
+ }
+      
+stage('unit testing')
+     
+ {
+       
+	 echo "unit testing"
+       
+	 sh "${mvncmd} -f ${w} test"
+    
+  }
+   
+stage('package')
+     
+ {
+       
+	 echo "packaging the code"
+       
+	 sh "${mvncmd} -f ${w} package"
+    
+  }
+   
+  
+}
